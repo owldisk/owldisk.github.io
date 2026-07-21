@@ -230,7 +230,7 @@
                     Scan your drive in seconds and explore storage usage with an interactive sunburst chart.
                 </p>
                 <div class="cta-buttons">
-                    <a href="https://github.com/owldisk/owldisk/releases" class="btn btn-primary">
+                    <a href="https://github.com/owldisk/owldisk/releases/download/v0.1.0/OwlDisk.dmg" class="btn btn-primary" id="download-btn">
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 12l-4-4h2.5V4h3v4H12L8 12z"/><path d="M2 14h12v1H2z"/></svg>
                         Download for macOS
                     </a>
@@ -239,6 +239,7 @@
                         View on GitHub
                     </a>
                 </div>
+                <div class="download-count" id="download-count" style="margin-top: 16px; font-size: 14px; color: #8b949e;"></div>
             </div>
         </section>
 
@@ -304,5 +305,25 @@
             </p>
         </div>
     </footer>
+
+    <script>
+        // Fetch download count from GitHub Releases API
+        fetch('https://api.github.com/repos/owldisk/owldisk/releases')
+            .then(r => r.json())
+            .then(releases => {
+                let total = 0;
+                releases.forEach(release => {
+                    if (release.assets) {
+                        release.assets.forEach(asset => {
+                            total += asset.download_count;
+                        });
+                    }
+                });
+                if (total > 0) {
+                    document.getElementById('download-count').textContent = total.toLocaleString() + ' downloads';
+                }
+            })
+            .catch(() => {});
+    </script>
 </body>
 </html>
