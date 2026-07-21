@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OwlDisk — Fast Disk Space Analyzer for macOS</title>
+    <meta name="description" content="OwlDisk is a fast, open-source disk space analyzer for macOS. Visualize what's eating your storage with an interactive sunburst chart.">
+    <meta property="og:title" content="OwlDisk — Fast Disk Space Analyzer for macOS">
+    <meta property="og:description" content="Visualize what's eating your storage with an interactive sunburst chart. Free and open source.">
+    <meta property="og:image" content="https://owldisk.com/owldisk-logo.png">
+    <meta property="og:url" content="https://owldisk.com">
+    <link rel="icon" type="image/png" href="owldisk-logo.png">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0d1117;
+            color: #e6edf3;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Header */
+        header {
+            padding: 24px 0;
+            border-bottom: 1px solid #21262d;
+        }
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #e6edf3;
+        }
+        .logo img {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+        }
+        .logo span {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+        }
+        .nav-links a {
+            color: #8b949e;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: #e6edf3; }
+
+        /* Hero */
+        .hero {
+            padding: 80px 0 60px;
+            text-align: center;
+        }
+        .hero-logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 24px;
+            margin-bottom: 32px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+        }
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #58a6ff, #a371f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            font-size: 20px;
+            color: #8b949e;
+            max-width: 600px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
+        }
+        .cta-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .btn-primary {
+            background: #238636;
+            color: white;
+        }
+        .btn-primary:hover { background: #2ea043; }
+        .btn-secondary {
+            background: #21262d;
+            color: #e6edf3;
+            border: 1px solid #30363d;
+        }
+        .btn-secondary:hover { background: #30363d; }
+
+        /* Features */
+        .features {
+            padding: 60px 0;
+        }
+        .features h2 {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 48px;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+        .feature-card {
+            background: #161b22;
+            border: 1px solid #21262d;
+            border-radius: 12px;
+            padding: 24px;
+        }
+        .feature-card h3 {
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: #e6edf3;
+        }
+        .feature-card p {
+            font-size: 14px;
+            color: #8b949e;
+            line-height: 1.6;
+        }
+        .feature-icon {
+            font-size: 28px;
+            margin-bottom: 12px;
+        }
+
+        /* Tech */
+        .tech {
+            padding: 60px 0;
+            border-top: 1px solid #21262d;
+            text-align: center;
+        }
+        .tech h2 {
+            font-size: 28px;
+            margin-bottom: 16px;
+        }
+        .tech p {
+            color: #8b949e;
+            font-size: 16px;
+            margin-bottom: 32px;
+        }
+        .tech-badges {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .badge {
+            background: #21262d;
+            border: 1px solid #30363d;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #8b949e;
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px 0;
+            border-top: 1px solid #21262d;
+            text-align: center;
+            color: #484f58;
+            font-size: 14px;
+        }
+        footer a {
+            color: #58a6ff;
+            text-decoration: none;
+        }
+        footer a:hover { text-decoration: underline; }
+
+        @media (max-width: 640px) {
+            .hero h1 { font-size: 32px; }
+            .hero p { font-size: 16px; }
+            .cta-buttons { flex-direction: column; align-items: center; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <img src="owldisk-logo.png" alt="OwlDisk logo">
+                <span>OwlDisk</span>
+            </a>
+            <nav class="nav-links">
+                <a href="https://github.com/owldisk/owldisk">GitHub</a>
+                <a href="https://github.com/owldisk/owldisk/releases">Download</a>
+                <a href="https://github.com/owldisk/owldisk#usage">Docs</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <img src="owldisk-logo.png" alt="OwlDisk" class="hero-logo">
+                <h1>See what's eating your disk</h1>
+                <p>
+                    A fast, open-source disk space analyzer for macOS.
+                    Scan your drive in seconds and explore storage usage with an interactive sunburst chart.
+                </p>
+                <div class="cta-buttons">
+                    <a href="https://github.com/owldisk/owldisk/releases" class="btn btn-primary">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 12l-4-4h2.5V4h3v4H12L8 12z"/><path d="M2 14h12v1H2z"/></svg>
+                        Download for macOS
+                    </a>
+                    <a href="https://github.com/owldisk/owldisk" class="btn btn-secondary">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        View on GitHub
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="container">
+                <h2>Features</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">&#9889;</div>
+                        <h3>Blazing Fast</h3>
+                        <p>Parallel scanning with 64 concurrent goroutines. Scans a full 500 GB disk in seconds.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">&#127912;</div>
+                        <h3>Interactive Visualization</h3>
+                        <p>Sunburst chart with 3 levels of depth. Click to drill down, click center to go back up.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">&#128270;</div>
+                        <h3>Accurate Sizes</h3>
+                        <p>Reports the same numbers as macOS Finder and About This Mac, including purgeable space.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">&#128465;</div>
+                        <h3>Quick Cleanup</h3>
+                        <p>Drag files and folders to the trash zone to free up space without leaving the app.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">&#128274;</div>
+                        <h3>Privacy First</h3>
+                        <p>Runs entirely on your machine. No data leaves your computer. Fully open source.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">&#129529;</div>
+                        <h3>Native Performance</h3>
+                        <p>Universal binary for Apple Silicon and Intel. No Electron, no web views — native macOS app.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="tech">
+            <div class="container">
+                <h2>Built with</h2>
+                <p>Modern tools for a native experience</p>
+                <div class="tech-badges">
+                    <span class="badge">Go</span>
+                    <span class="badge">Wails v2</span>
+                    <span class="badge">React</span>
+                    <span class="badge">TypeScript</span>
+                    <span class="badge">D3.js</span>
+                    <span class="badge">Tailwind CSS</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>
+                OwlDisk is open source under the <a href="https://github.com/owldisk/owldisk/blob/master/LICENSE">MIT License</a>.
+                Made with care for macOS users.
+            </p>
+        </div>
+    </footer>
+</body>
+</html>
