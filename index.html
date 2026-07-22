@@ -19,14 +19,14 @@
             min-height: 100vh;
         }
         .container {
-            max-width: 960px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 0 24px;
         }
 
         /* Header */
         header {
-            padding: 24px 0;
+            padding: 16px 0;
             border-bottom: 1px solid #21262d;
         }
         .header-inner {
@@ -65,36 +65,69 @@
 
         /* Hero */
         .hero {
-            padding: 80px 0 60px;
-            text-align: center;
+            padding: 60px 0 20px;
+            min-height: calc(100vh - 50px);
+            display: flex;
+            align-items: center;
+        }
+        .hero-content {
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 60px;
+            align-items: center;
+            width: 100%;
+        }
+        .hero-text {
+            text-align: left;
         }
         .hero-logo {
-            width: 120px;
-            height: 120px;
-            border-radius: 24px;
-            margin-bottom: 32px;
+            width: 60px;
+            height: 60px;
+            border-radius: 14px;
+            margin-bottom: 20px;
             box-shadow: 0 8px 32px rgba(0,0,0,0.4);
         }
         .hero h1 {
-            font-size: 48px;
+            font-size: 40px;
             font-weight: 700;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
             background: linear-gradient(135deg, #58a6ff, #a371f7);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
         .hero p {
-            font-size: 20px;
+            font-size: 16px;
             color: #8b949e;
-            max-width: 600px;
-            margin: 0 auto 40px;
+            margin: 0 0 24px;
             line-height: 1.6;
+        }
+        .hero-meta {
+            font-size: 12px;
+            color: #484f58;
+            margin-top: 16px;
+        }
+        .hero-screenshot {
+            position: relative;
+        }
+        .hero-screenshot img {
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+            border: 1px solid #21262d;
+        }
+
+        @media (max-width: 900px) {
+            .hero-content { grid-template-columns: 1fr; gap: 32px; }
+            .hero-text { text-align: center; }
+            .hero h1 { font-size: 32px; }
+            .cta-buttons { justify-content: center; }
+            .hero { min-height: auto; padding: 60px 0 40px; }
         }
         .cta-buttons {
             display: flex;
-            gap: 16px;
-            justify-content: center;
-            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: flex-start;
+            flex-wrap: nowrap;
         }
         .btn {
             display: inline-flex;
@@ -121,7 +154,7 @@
 
         /* Screenshot */
         .screenshot-section {
-            padding: 20px 0 60px;
+            padding: 10px 0 40px;
             text-align: center;
         }
         .screenshot-section img {
@@ -236,29 +269,31 @@
     <main>
         <section class="hero">
             <div class="container">
-                <img src="owldisk-logo.png" alt="OwlDisk" class="hero-logo">
-                <h1>See what's eating your disk</h1>
-                <p>
-                    A fast, open-source disk space analyzer for macOS.
-                    Scan your drive in seconds and explore storage usage with an interactive sunburst chart.
-                </p>
-                <div class="cta-buttons">
-                    <a href="https://github.com/owldisk/owldisk/releases/download/v0.1.0/OwlDisk.dmg" class="btn btn-primary" id="download-btn">
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 12l-4-4h2.5V4h3v4H12L8 12z"/><path d="M2 14h12v1H2z"/></svg>
-                        Download for macOS
-                    </a>
-                    <a href="https://github.com/owldisk/owldisk" class="btn btn-secondary">
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-                        View on GitHub
-                    </a>
+                <div class="hero-content">
+                    <div class="hero-text">
+                        <img src="owldisk-logo.png" alt="OwlDisk" class="hero-logo">
+                        <h1>See what's eating your disk</h1>
+                        <p>
+                            A fast, open-source disk space analyzer for macOS.
+                            Scan your drive in seconds and explore storage usage with an interactive sunburst chart.
+                        </p>
+                        <div class="cta-buttons">
+                            <a href="https://github.com/owldisk/owldisk/releases/download/v0.1.0/OwlDisk.dmg" class="btn btn-primary" id="download-btn">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 12l-4-4h2.5V4h3v4H12L8 12z"/><path d="M2 14h12v1H2z"/></svg>
+                                Download for macOS
+                            </a>
+                            <a href="https://github.com/owldisk/owldisk" class="btn btn-secondary">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                                View on GitHub
+                            </a>
+                        </div>
+                        <div class="download-count" id="download-count" style="margin-top: 16px; font-size: 14px; color: #8b949e;"></div>
+                        <p class="hero-meta">Free &amp; open source &middot; macOS 11+ &middot; Apple Silicon &amp; Intel</p>
+                    </div>
+                    <div class="hero-screenshot">
+                        <img src="scan-results.png" alt="OwlDisk scan results showing interactive sunburst chart and file list">
+                    </div>
                 </div>
-                <div class="download-count" id="download-count" style="margin-top: 16px; font-size: 14px; color: #8b949e;"></div>
-            </div>
-        </section>
-
-        <section class="screenshot-section">
-            <div class="container">
-                <img src="scan-results.png" alt="OwlDisk scan results showing interactive sunburst chart and file list">
             </div>
         </section>
 
